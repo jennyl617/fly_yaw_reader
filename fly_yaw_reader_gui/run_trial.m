@@ -1,7 +1,8 @@
 function [ trial_data, trial_time ] = run_trial( trial_idx, task, run_obj, scanimage_client )
 
-% Setup data structures for read / write on the daq board
+disp(['About to start trial task: ' task]);
 
+% Setup data structures for read / write on the daq board
 s = daq.createSession('ni');
 
 ai_channels_used = [0:6];
@@ -29,13 +30,13 @@ end_idx = (run_obj.pre_stim_t+run_obj.stim_t) * SAMPLING_RATE;
 stim(begin_idx:end_idx) = 5.0;
 
 output_data = [];
-if( strcmp(task, 'Left_Odor') == 1 )
+if( strcmp(task, 'LeftOdor') == 1 )
     output_data = [stim zero_stim];
-elseif( strcmp(task, 'Right_Odor') == 1 )
+elseif( strcmp(task, 'RightOdor') == 1 )
     output_data = [zero_stim stim];
-elseif( strcmp(task, 'Both_Odor') == 1 )
+elseif( strcmp(task, 'BothOdor') == 1 )
     output_data = [stim stim];
-elseif( strcmp(task, 'Natural_Odor') == 1 )
+elseif( strcmp(task, 'NaturalOdor') == 1 )
     output_data = [stim zero_stim];
 else
     disp(['ERROR: Task: ' task ' is not recognized.']);
@@ -45,8 +46,11 @@ queueOutputData(s, output_data);
 
 % Trigger scanimage run if using 2p.
 if(run_obj.using_2p == 1)
-    scanimage_file_str = [task '_' run_obj.session_id '_' trial_idx '_'];
-    fwrite(scanimage_client, scanimage_file_str);
+    scanimage_file_str = [task '_sid_' num2str(run_obj.session_id) '_tid_' num2str(trial_idx) '_'];
+    fprintf(scanimage_client, [scanimage_file_str]);
+    disp(['Wrote: ' scanimage_file_str ' to scanimage server' ]);
+    acq = fscanf(scanimage_client, '%s');
+    disp(['Read acq: ' acq ' from scanimage server' ]);    
 end
 
 [trial_data, trial_time] = s.startForeground();

@@ -3,13 +3,13 @@ function [] = display_trial( task, trial_time, trial_data, viz_figs )
 colors = {'red', 'green', 'blue', 'black'};
 cur_color = '';
 
-if( strcmp(task, 'Left_Odor') == 1 )
+if( strcmp(task, 'LeftOdor') == 1 )
     cur_color = colors{1};
-elseif( strcmp(task, 'Right_Odor') == 1 )
+elseif( strcmp(task, 'RightOdor') == 1 )
     cur_color = colors{2};
-elseif( strcmp(task, 'Both_Odor') == 1 )
+elseif( strcmp(task, 'BothOdor') == 1 )
     cur_color = colors{3};
-elseif( strcmp(task, 'Natural_Odor') == 1 )
+elseif( strcmp(task, 'NaturalOdor') == 1 )
     cur_color = colors{4};
 else
     disp(['ERROR: Task: ' task ' is not recognized.']);

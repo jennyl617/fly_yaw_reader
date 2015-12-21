@@ -6,12 +6,14 @@ if(strcmp(stim_type, 'Task File') == 1)
     
     task_file_path = run_obj.taskfile_path;
     
+    disp(['About to start trials using task file: ' task_file_path]);
     tasks = read_task_file(task_file_path);
     task_cnt = length(tasks);
     
     scanimage_client_skt = '';
     if(run_obj.using_2p == 1)
-        scan_image_client_skt = connect_to_scanimage();
+        scanimage_client_skt = connect_to_scanimage();
+        disp(['Connected to scanimage server on socket']);
     end
         
     viz_figs.run_traj_fig = figure();
@@ -25,7 +27,7 @@ if(strcmp(stim_type, 'Task File') == 1)
         display_trial( cur_task, trial_time, trial_bdata, viz_figs );        
 
         % Save data              
-        cur_trial_file_name = [ run_obj.experiment_dir '\trial_bdata_' datestr(now, 'yyyy_mmdd_HH_MM_SS') '_sid_' num2str(session_id) '_tid_' num2str(i-1) '.mat' ];
+        cur_trial_file_name = [ run_obj.experiment_dir '\bdata_' cur_task '_' datestr(now, 'yyyymmdd_HHMMSS') '_sid_' num2str(session_id) '_tid_' num2str(i-1) '.mat' ];
         save( cur_trial_file_name, 'trial_bdata', 'trial_time' );
         
         % wait for an inter-trial period
@@ -36,7 +38,8 @@ if(strcmp(stim_type, 'Task File') == 1)
     end    
        
     if(run_obj.using_2p == 1)
-        flose(scan_image_client_skt);
+        fprintf(scanimage_client_skt, 'END_OF_SESSION');
+        fclose(scanimage_client_skt);
     end
     
     % Save viz figures
