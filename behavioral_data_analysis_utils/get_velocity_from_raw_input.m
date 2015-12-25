@@ -8,15 +8,10 @@ smoothedData = filtfilt(kb, ka, raw_data);
 
 dt = settings.sampRate/settings.sensorPollFreq;
 
-if(mod(length(smoothedData), dt) ~= 0)
-    x = floor(length(smoothedData)/dt);
-    cut_length = x*dt; 
-    smoothedData_downsampled = squeeze(mean(reshape(smoothedData(1:cut_length), [dt, x])));
-    time_downsampled = squeeze(mean(reshape(time(1:cut_length), [dt, x])));
-else
-    smoothedData_downsampled = squeeze(mean(reshape(smoothedData, [dt, length(smoothedData)/dt])));
-    time_downsampled = squeeze(mean(reshape(time, [dt, length(time)/dt])));
-end
+x = floor(length(smoothedData)/dt);
+cut_length = x*dt;
+smoothedData_downsampled = squeeze(mean(reshape(smoothedData(1:cut_length), [dt, x])));
+time_downsampled = squeeze(mean(reshape(time(1:cut_length), [dt, x])));
 
 sdz = smoothedData_downsampled - repmat(zero_volt_mark, [1 size(smoothedData_downsampled,2)]);
 
