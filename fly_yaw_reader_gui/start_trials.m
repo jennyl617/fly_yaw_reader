@@ -23,11 +23,15 @@ if(strcmp(stim_type, 'Task File') == 1)
     for i = 1:task_cnt
         cur_task = tasks{i};        
         
-        [trial_bdata, trial_time] = run_trial(i, cur_task, run_obj, scanimage_client_skt );
-        display_trial( cur_task, trial_time, trial_bdata, viz_figs );        
-
+        cur_trial_corename = [cur_task '_' datestr(now, 'yyyymmdd_HHMMSS') '_sid_' num2str(session_id) '_tid_' num2str(i-1)];
+        %[trial_bdata, trial_time] = run_trial(i, cur_task, run_obj, scanimage_client_skt, cur_trial_corename );
+        [trial_bdata, trial_time] = run_trial_v2(i, cur_task, run_obj, scanimage_client_skt, cur_trial_corename );
+        if( strcmp(cur_task,'NaturalOdor') == 0)
+            display_trial( cur_task, trial_time, trial_bdata, viz_figs );        
+        end
+        
         % Save data              
-        cur_trial_file_name = [ run_obj.experiment_dir '\bdata_' cur_task '_' datestr(now, 'yyyymmdd_HHMMSS') '_sid_' num2str(session_id) '_tid_' num2str(i-1) '.mat' ];
+        cur_trial_file_name = [ run_obj.experiment_dir '\bdata_' cur_trial_corename '.mat' ];
         save( cur_trial_file_name, 'trial_bdata', 'trial_time' );
         
         % wait for an inter-trial period
