@@ -49,7 +49,7 @@ elseif( strcmp(task, 'NaturalOdor') == 1 )
     % This is where olfactometer stim parameters are defined.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    PINCH_VALVE_OPEN_TIME = 2.292;
+    PINCH_VALVE_OPEN_TIME = 1.0;
     begin_idx = PINCH_VALVE_OPEN_TIME * SAMPLING_RATE;
     
     pinch_valve_waveform = zeros(SAMPLING_RATE*total_duration,1);
