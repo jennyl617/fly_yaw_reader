@@ -1,4 +1,4 @@
-function [ t, vel_fwd, vel_side, vel_yaw ] = get_velocity( trial_data )
+function [ t, vel_fwd, vel_side, vel_yaw ] = get_velocity( trial_time, trial_data )
 
 settings = sensor_settings;
 
