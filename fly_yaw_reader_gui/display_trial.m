@@ -17,7 +17,7 @@ end
 
 settings = sensor_settings;
 
-[ vel_forward, vel_side, vel_yaw ] = get_velocity(trial_time, trial_data); 
+[ t, vel_forward, vel_side, vel_yaw ] = get_velocity(trial_time, trial_data); 
 
 % Display trial velocities
 figure(viz_figs.velocity_tc_fig);

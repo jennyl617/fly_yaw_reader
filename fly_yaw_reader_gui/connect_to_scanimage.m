@@ -4,6 +4,7 @@ function [ skt ] = connect_to_scanimage()
 
 skt = tcpip('gjoa.med.harvard.edu', 30000, 'NetworkRole', 'client');
 fopen(skt);
+flushinput(skt);
 
 end
 
