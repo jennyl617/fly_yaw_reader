@@ -14,8 +14,8 @@ sensor2_y = trial_data(:,4);
 
 % Below is from Seelig et al. Nature Methods 2010, methods section
 vel_fwd = -1*((vel1_y + vel2_y)*cos(deg2rad(45)));
-vel_side    = -1*((vel1_y - vel2_y)*sin(deg2rad(45)));
-vel_yaw     = -1*((vel1_x + vel2_x) ./ 2.0);
+vel_side    = ((vel1_y - vel2_y)*sin(deg2rad(45)));
+vel_yaw     = ((vel1_x + vel2_x) ./ 2.0);
 
 end
 
