@@ -53,11 +53,33 @@ elseif( strcmp(task, 'NaturalOdor') == 1 )
     begin_idx = PINCH_VALVE_OPEN_TIME * SAMPLING_RATE;
     
     pinch_valve_waveform = zeros(SAMPLING_RATE*total_duration,1);
-    pinch_valve_waveform( begin_idx:end-1 ) = 5.0;
+    pinch_valve_waveform( begin_idx:end-1 ) = 5.0; % volts
     
     output_data = [imaging_trigger pinch_valve_waveform stim];
     
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
+elseif( strncmpi(task, 'sound', 5) == 1 )  %the task name needs to start with "sound"
+    % here several entries in the GUI will be ignored (prestim, stim, poststim)
+    fs = 40000;
+    add_s_on = 1; % time added before stimulus onset (in seconds); if this value = 1 the stimulus starts at 80000 samples so time = 2 sec
+    add_s_off = 1; % time added after stimulus offset (in seconds)
+    intensity = 2; % output voltage (in V)
+ 
+    stim = audioread(['C:\Users\wilson_lab\Desktop\Rachel\auditory_stim_files\' task '.wav']); % load stimulus (the task name must be the name of the wav file)
+    stim = intensity/max(abs(stim))*stim;
+    stim = [zeros(1,add_s_on*fs) stim' zeros(1,add_s_off*fs)];
+    
+    zero_stim = zeros(size(stim,2),1);    
+    
+    imaging_trigger = zero_stim;
+    imaging_trigger(2:end-1) = 1.0;
+
+    % Setup data structures for read / write on the daq board
+    s.Rate = fs;
+    
+    total_duration = size( stim, 2 ) / fs;
+    
+    output_data = [imaging_trigger zero_stim stim'];
 else
     disp(['ERROR: Task: ' task ' is not recognized.']);
 end
@@ -66,7 +88,7 @@ queueOutputData(s, output_data);
 
 % Trigger scanimage run if using 2p.
 if(run_obj.using_2p == 1)
-    scanimage_file_str = ['cdata_' trial_core_name '_'];
+    scanimage_file_str = ['cdata_' trial_core_name '_tt_' num2str(total_duration) '_'];
     fprintf(scanimage_client, [scanimage_file_str]);
     disp(['Wrote: ' scanimage_file_str ' to scanimage server' ]);
     acq = fscanf(scanimage_client, '%s');
@@ -78,5 +100,7 @@ end
 pause(1.0);
 
 [trial_data, trial_time] = s.startForeground();
+
+release(s);
 end
 

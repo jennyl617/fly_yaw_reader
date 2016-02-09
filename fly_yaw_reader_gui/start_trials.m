@@ -14,6 +14,15 @@ if(strcmp(stim_type, 'Task File') == 1)
     if(run_obj.using_2p == 1)
         scanimage_client_skt = connect_to_scanimage();
         disp(['Connected to scanimage server on socket']);
+        
+        % Send session parameters to scan image.
+%         total_duration = run_obj.pre_stim_t + run_obj.stim_t + run_obj.post_stim_t;
+%         disp(['Total  duration: ' num2str(total_duration)]);
+%         server_cmd = ['TotalDuration=' num2str(total_duration)];
+%         fprintf(scanimage_client_skt, server_cmd);
+%         disp(['Sent command: ' server_cmd ' to scanimage server.' ]);
+%         acq = fscanf(scanimage_client_skt, '%s');
+%         disp(['Received acq from server: ' acq]);
     end
         
     viz_figs.run_traj_fig = figure();
@@ -26,7 +35,7 @@ if(strcmp(stim_type, 'Task File') == 1)
         cur_trial_corename = [cur_task '_' datestr(now, 'yyyymmdd_HHMMSS') '_sid_' num2str(session_id) '_tid_' num2str(i-1)];
         %[trial_bdata, trial_time] = run_trial(i, cur_task, run_obj, scanimage_client_skt, cur_trial_corename );
         [trial_bdata, trial_time] = run_trial_v2(i, cur_task, run_obj, scanimage_client_skt, cur_trial_corename );
-        if( strcmp(cur_task,'NaturalOdor') == 0)
+        if( (strcmp(cur_task,'BothOdor') == 1) | (strcmp(cur_task,'RightOdor') == 1) | (strcmp(cur_task,'LeftOdor') == 1) )
             display_trial( cur_task, trial_time, trial_bdata, viz_figs );        
         end
         
@@ -46,9 +55,11 @@ if(strcmp(stim_type, 'Task File') == 1)
         fclose(scanimage_client_skt);
     end
     
-    % Save viz figures
-    saveas( viz_figs.run_traj_fig, [run_obj.experiment_dir '\run_traj_' datestr(now, 'yyyy_mmdd_HH_MM_SS') '_sid_' num2str(session_id) '.fig'] );
-    saveas( viz_figs.velocity_tc_fig, [run_obj.experiment_dir '\velocity_tc_' datestr(now, 'yyyy_mmdd_HH_MM_SS') '_sid_' num2str(session_id) '.fig'] );
+    if( (strcmp(cur_task,'BothOdor') == 1) | (strcmp(cur_task,'RightOdor') == 1) | (strcmp(cur_task,'LeftOdor') == 1) )
+        % Save viz figures       
+        saveas( viz_figs.run_traj_fig, [run_obj.experiment_dir '\run_traj_' datestr(now, 'yyyy_mmdd_HH_MM_SS') '_sid_' num2str(session_id) '.fig'] );
+        saveas( viz_figs.velocity_tc_fig, [run_obj.experiment_dir '\velocity_tc_' datestr(now, 'yyyy_mmdd_HH_MM_SS') '_sid_' num2str(session_id) '.fig'] );
+    end
     
     % Update session id    
     set(run_obj.sessiod_id_hdl, 'String', num2str(session_id+1));
