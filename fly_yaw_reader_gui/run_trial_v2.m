@@ -19,6 +19,9 @@ end
 % This is the stim control: stim left, stim right
 s.addAnalogOutputChannel('Dev1', 0:1, 'Voltage');
 
+% This is the 2p aquisition stop trigger.
+%s.addDigitalChannel('Dev1', 'port0/line6', 'OutputOnly');
+
 settings = sensor_settings;
 
 SAMPLING_RATE = settings.sampRate;
@@ -37,12 +40,17 @@ imaging_trigger = zero_stim;
 imaging_trigger(2:end-1) = 1.0;
 
 output_data = [];
-if( strcmp(task, 'LeftOdor') == 1 )
-    output_data = [imaging_trigger stim zero_stim];
+if( strcmp(task, '2pStim') == 1 )
+    imaging_trigger = zero_stim;
+    imaging_trigger(begin_idx:end_idx) = 1.0;
+    output_data = [imaging_trigger zero_stim zero_stim ];
+    total_duration = run_obj.stim_t;
+elseif( strcmp(task, 'LeftOdor') == 1 )
+    output_data = [imaging_trigger stim zero_stim ];
 elseif( strcmp(task, 'RightOdor') == 1 )
-    output_data = [imaging_trigger zero_stim stim];
+    output_data = [imaging_trigger zero_stim stim ];
 elseif( strcmp(task, 'BothOdor') == 1 )
-    output_data = [imaging_trigger stim stim];
+    output_data = [imaging_trigger stim stim ];
 elseif( strcmp(task, 'NaturalOdor') == 1 )
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -55,17 +63,18 @@ elseif( strcmp(task, 'NaturalOdor') == 1 )
     pinch_valve_waveform = zeros(SAMPLING_RATE*total_duration,1);
     pinch_valve_waveform( begin_idx:end-1 ) = 5.0; % volts
     
-    output_data = [imaging_trigger pinch_valve_waveform stim];
+    output_data = [imaging_trigger pinch_valve_waveform stim ];
     
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
-elseif( strncmpi(task, 'sound', 5) == 1 )  %the task name needs to start with "sound"
+elseif( strncmpi(task, 'sound', 5) == 1 )  %the relevant line in the txt task file needs to start with "sound"
     % here several entries in the GUI will be ignored (prestim, stim, poststim)
     fs = 40000;
-    add_s_on = 1; % time added before stimulus onset (in seconds); if this value = 1 the stimulus starts at 80000 samples so time = 2 sec
-    add_s_off = 1; % time added after stimulus offset (in seconds)
+
+    add_s_on = 9; % extra time added (beyond 1 s) before stimulus onset (in seconds); if this value = 1 the stimulus starts at 80000 samples so time = 2 sec
+    add_s_off = 10; % time added after stimulus offset (in seconds)
     intensity = 2; % output voltage (in V)
  
-    stim = audioread(['C:\Users\wilson_lab\Desktop\Rachel\auditory_stim_files\' task '.wav']); % load stimulus (the task name must be the name of the wav file)
+    stim = audioread(['C:\Users\wilson_lab\Desktop\Rachel\auditory_stim_files\' task '.wav']); % load stimulus (the relevant line in the txt task file must be identical to the name of the wav file)
     stim = intensity/max(abs(stim))*stim;
     stim = [zeros(1,add_s_on*fs) stim' zeros(1,add_s_off*fs)];
     
@@ -79,7 +88,7 @@ elseif( strncmpi(task, 'sound', 5) == 1 )  %the task name needs to start with "s
     
     total_duration = size( stim, 2 ) / fs;
     
-    output_data = [imaging_trigger zero_stim stim'];
+    output_data = [imaging_trigger zero_stim stim' ];
 else
     disp(['ERROR: Task: ' task ' is not recognized.']);
 end

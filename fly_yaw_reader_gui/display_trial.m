@@ -3,7 +3,7 @@ function [] = display_trial( task, trial_time, trial_data, viz_figs )
 colors = {'red', 'green', 'blue', 'black'};
 cur_color = '';
 
-if( strcmp(task, 'LeftOdor') == 1 )
+if( (strcmp(task, 'LeftOdor') == 1 ) | (strcmp(task, '2pStim') == 1 ))
     cur_color = colors{1};
 elseif( strcmp(task, 'RightOdor') == 1 )
     cur_color = colors{2};
@@ -57,8 +57,11 @@ hold on;
 plot(disp_x, disp_y, 'color', cur_color);
 xlabel('X displacement (au)');
 ylabel('Y displacement (au)');
-h = legend('Both Odor', 'Left Odor', 'Right Odor');
-legendlinecolors(h, {'blue', 'red', 'green'});
+
+%h = legend('Both Odor', 'Left Odor', 'Right Odor');
+%legendlinecolors(h, {'blue', 'red', 'green'});
+h = legend('Left Odor', 'Right Odor');
+legendlinecolors(h, {'red', 'green'});
 
 end
 
