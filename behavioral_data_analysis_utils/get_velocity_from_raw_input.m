@@ -15,7 +15,7 @@ time_downsampled = squeeze(mean(reshape(time(1:cut_length), [dt, x])));
 
 %%%%% 
 % Turn these on to recalibrate the average and std of zero volts.
-if 1
+if 0
 %figure;
 %hold on;
 %plot(smoothedData_downsampled);
