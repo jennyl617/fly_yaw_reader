@@ -280,16 +280,16 @@ void loop()
   //Serial.println();
 
 
- /*
+/*
   Serial.print("X Dat: "); 
   Serial.print(xydat[0]); 
-  Serial.print("Y Dat: "); 
+  Serial.print(" Y Dat: "); 
   Serial.print(xydat[1]);
-  Serial.print("X Wire: "); 
+  Serial.print(" X Wire: "); 
   Serial.print(wireOut[0]); 
-  Serial.print("Y Wire: "); 
+  Serial.print(" Y Wire: "); 
   Serial.println(wireOut[1]);
-  */
+*/
   
   Wire.beginTransmission(MCP4725_ADDR_1);
   Wire.write(64);                     // cmd to update the DAC
