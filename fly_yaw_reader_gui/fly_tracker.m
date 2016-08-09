@@ -22,7 +22,7 @@ function varargout = fly_tracker(varargin)
 
 % Edit the above text to modify the response to help fly_tracker
 
-% Last Modified by GUIDE v2.5 17-Dec-2015 18:53:42
+% Last Modified by GUIDE v2.5 09-Aug-2016 13:19:50
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -308,6 +308,8 @@ run_obj.session_id = str2num(get(ghandles.session_id_edit, 'String'));
 run_obj.sessiod_id_hdl = ghandles.session_id_edit;
 run_obj.taskfile_path = task_filepath;
 
+run_obj.is_oga = get(ghandles.is_oga_button, 'Value');
+
 start_trials(run_obj);
 
 guidata(hObject, handles);
@@ -332,3 +334,12 @@ function session_id_edit_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+% --- Executes on button press in is_oga_button.
+function is_oga_button_Callback(hObject, eventdata, handles)
+% hObject    handle to is_oga_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of is_oga_button

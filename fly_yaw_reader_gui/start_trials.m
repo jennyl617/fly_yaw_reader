@@ -25,7 +25,13 @@ if(strcmp(stim_type, 'Task File') == 1)
         
         cur_trial_corename = [cur_task '_' datestr(now, 'yyyymmdd_HHMMSS') '_sid_' num2str(session_id) '_tid_' num2str(i-1)];
         %[trial_bdata, trial_time] = run_trial(i, cur_task, run_obj, scanimage_client_skt, cur_trial_corename );
-        [trial_bdata, trial_time] = run_trial_OT(i, cur_task, run_obj, scanimage_client_skt, cur_trial_corename );
+        
+        if(run_obj.is_oga == 1)
+            [trial_bdata, trial_time] = run_trial_OGA(i, cur_task, run_obj, scanimage_client_skt, cur_trial_corename );
+        else
+            [trial_bdata, trial_time] = run_trial_OT(i, cur_task, run_obj, scanimage_client_skt, cur_trial_corename );
+        end
+        
         if( (strcmp(cur_task,'BothOdor') == 1) | (strcmp(cur_task,'RightOdor') == 1) | (strcmp(cur_task,'LeftOdor') == 1) | (strcmp(cur_task,'2pStim') == 1) )
             display_trial( cur_task, trial_time, trial_bdata, viz_figs );        
         end
