@@ -57,21 +57,21 @@ xlabel('Time (s)');
 xlim([0 trial_time(end)]);
 title('Yaw velocity');
 
-% % Display trial raw trajectory
-% figure(viz_figs.run_traj_fig);
-% 
-% dt = 1.0/settings.sensorPollFreq;
-% %[disp_x, disp_y, theta] = calculate_fly_position_with_yaw(vel_forward, vel_side, vel_yaw, dt, 0, 0, 0);
-% [disp_x, disp_y] = calculate_fly_position_no_yaw(vel_forward, vel_side, dt, 0, 0);
-% hold on;
-% plot(disp_x, disp_y, 'color', cur_color);
-% xlabel('X displacement (au)');
-% ylabel('Y displacement (au)');
+% Display trial raw trajectory
+figure(viz_figs.run_traj_fig);
+
+dt = 1.0/settings.sensorPollFreq;
+%[disp_x, disp_y, theta] = calculate_fly_position_with_yaw(vel_forward, vel_side, vel_yaw, dt, 0, 0, 0);
+[disp_x, disp_y] = calculate_fly_position_no_yaw(vel_forward, vel_side, dt, 0, 0);
+hold on;
+plot(disp_x, disp_y, 'color', cur_color);
+xlabel('X displacement (au)');
+ylabel('Y displacement (au)');
 
 %h = legend('Both Odor', 'Left Odor', 'Right Odor');
 %legendlinecolors(h, {'blue', 'red', 'green'});
-% h = legend('Control', 'ClosedLoop');
-% legendlinecolors(h, {'red', 'green'});
+h = legend('Control', 'ClosedLoop');
+legendlinecolors(h, {'red', 'green'});
 
 end
 

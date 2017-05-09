@@ -16,7 +16,7 @@ if(strcmp(stim_type, 'Task File') == 1)
         disp(['Connected to scanimage server on socket']);
     end
         
-    viz_figs.run_traj_fig = figure();
+    %viz_figs.run_traj_fig = figure();
     viz_figs.velocity_tc_fig = figure();
     session_id = run_obj.session_id;
     
@@ -28,7 +28,6 @@ if(strcmp(stim_type, 'Task File') == 1)
         
         [trial_bdata, trial_time] = run_trial_JL(i, cur_task, run_obj, scanimage_client_skt, cur_trial_corename );
         
-        % FIX
         if check_trial(cur_task)
             display_trial( cur_task, trial_time, trial_bdata, viz_figs );        
         end
@@ -52,7 +51,7 @@ if(strcmp(stim_type, 'Task File') == 1)
     if check_trial(cur_task)
         % Save viz figures       
         saveas( viz_figs.run_traj_fig, [run_obj.experiment_dir '\run_traj_' datestr(now, 'yyyy_mmdd_HH_MM_SS') '_sid_' num2str(session_id) '.fig'] );
-        saveas( viz_figs.velocity_tc_fig, [run_obj.experiment_dir '\velocity_tc_' datestr(now, 'yyyy_mmdd_HH_MM_SS') '_sid_' num2str(session_id) '.fig'] );
+        %saveas( viz_figs.velocity_tc_fig, [run_obj.experiment_dir '\velocity_tc_' datestr(now, 'yyyy_mmdd_HH_MM_SS') '_sid_' num2str(session_id) '.fig'] );
     end
     
     % Update session id    
