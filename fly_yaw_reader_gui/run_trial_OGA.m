@@ -1,4 +1,4 @@
-function [ trial_data, trial_time ] = run_trial_v2( trial_idx, task, run_obj, scanimage_client, trial_core_name )
+function [ trial_data, trial_time ] = run_trial_OGA( trial_idx, task, run_obj, scanimage_client, trial_core_name )
 
 disp(['About to start trial task: ' task]);
 

@@ -1,35 +1,35 @@
-function varargout = fly_tracker(varargin)
-% FLY_TRACKER MATLAB code for fly_tracker.fig
-%      FLY_TRACKER, by itself, creates a new FLY_TRACKER or raises the existing
+function varargout = fly_tracker_JL(varargin)
+% FLY_TRACKER_JL MATLAB code for fly_tracker_JL.fig
+%      FLY_TRACKER_JL, by itself, creates a new FLY_TRACKER_JL or raises the existing
 %      singleton*.
 %
-%      H = FLY_TRACKER returns the handle to a new FLY_TRACKER or the handle to
+%      H = FLY_TRACKER_JL returns the handle to a new FLY_TRACKER_JL or the handle to
 %      the existing singleton*.
 %
-%      FLY_TRACKER('CALLBACK',hObject,eventData,handles,...) calls the local
-%      function named CALLBACK in FLY_TRACKER.M with the given input arguments.
+%      FLY_TRACKER_JL('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in FLY_TRACKER_JL.M with the given input arguments.
 %
-%      FLY_TRACKER('Property','Value',...) creates a new FLY_TRACKER or raises the
+%      FLY_TRACKER_JL('Property','Value',...) creates a new FLY_TRACKER_JL or raises the
 %      existing singleton*.  Starting from the left, property value pairs are
-%      applied to the GUI before fly_tracker_OpeningFcn gets called.  An
+%      applied to the GUI before fly_tracker_JL_OpeningFcn gets called.  An
 %      unrecognized property name or invalid value makes property application
-%      stop.  All inputs are passed to fly_tracker_OpeningFcn via varargin.
+%      stop.  All inputs are passed to fly_tracker_JL_OpeningFcn via varargin.
 %
 %      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
 %      instance to run (singleton)".
 %
 % See also: GUIDE, GUIDATA, GUIHANDLES
 
-% Edit the above text to modify the response to help fly_tracker
+% Edit the above text to modify the response to help fly_tracker_JL
 
-% Last Modified by GUIDE v2.5 09-May-2017 16:23:12
+% Last Modified by GUIDE v2.5 09-May-2017 16:28:50
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
                    'gui_Singleton',  gui_Singleton, ...
-                   'gui_OpeningFcn', @fly_tracker_OpeningFcn, ...
-                   'gui_OutputFcn',  @fly_tracker_OutputFcn, ...
+                   'gui_OpeningFcn', @fly_tracker_JL_OpeningFcn, ...
+                   'gui_OutputFcn',  @fly_tracker_JL_OutputFcn, ...
                    'gui_LayoutFcn',  [] , ...
                    'gui_Callback',   []);
 if nargin && ischar(varargin{1})
@@ -44,18 +44,18 @@ end
 % End initialization code - DO NOT EDIT
 
 
-% --- Executes just before fly_tracker is made visible.
-function fly_tracker_OpeningFcn(hObject, eventdata, handles, varargin)
+% --- Executes just before fly_tracker_JL is made visible.
+function fly_tracker_JL_OpeningFcn(hObject, eventdata, handles, varargin)
 % This function has no output args, see OutputFcn.
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-% varargin   command line arguments to fly_tracker (see VARARGIN)
+% varargin   command line arguments to fly_tracker_JL (see VARARGIN)
 
-% Choose default command line output for fly_tracker
+% Choose default command line output for fly_tracker_JL
 handles.output = hObject;
 
-% UIWAIT makes fly_tracker wait for user response (see UIRESUME)
+% UIWAIT makes fly_tracker_JL wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 
 % Prompt for an experiment directory
@@ -69,7 +69,7 @@ set(ghandles.experiment_dir_edit, 'String', dname);
 guidata(hObject, handles);
 
 % --- Outputs from this function are returned to the command line.
-function varargout = fly_tracker_OutputFcn(hObject, eventdata, handles) 
+function varargout = fly_tracker_JL_OutputFcn(hObject, eventdata, handles) 
 % varargout  cell array for returning output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -293,12 +293,23 @@ if( isempty(task_filepath) == 1 )
     errordlg('Please set the task file path.')
     return;
 end
+% trial variables
+run_obj.pattern_
+run_obj.inter_trial_t = str2num(get(ghandles.inter_trial_period_edit, 'String'));
 
+% odor variables
 run_obj.pre_stim_t = str2num(get(ghandles.pre_stim_edit, 'String'));
 run_obj.stim_t = str2num(get(ghandles.stim_edit, 'String'));
 run_obj.post_stim_t = str2num(get(ghandles.post_stim_edit, 'String'));
-run_obj.inter_trial_t = str2num(get(ghandles.inter_trial_period_edit, 'String'));
+
+
+% panel variables
+run_obj.number_frames = str2num(get(ghandles.number_frames_edit, 'String'));
+run_obj.pattern_number = str2num(get(ghandles.pattern_number_edit, 'String'));
+
+% 2p variable
 run_obj.using_2p = get(ghandles.using_2p_button, 'Value');
+
 
 contents = get(ghandles.stim_type_menu,'String'); 
 run_obj.stim_type = contents; % contents{get(ghandles.stim_type_menu,'Value')};
@@ -307,8 +318,6 @@ run_obj.experiment_dir = handles.experiment_dir;
 run_obj.session_id = str2num(get(ghandles.session_id_edit, 'String'));
 run_obj.sessiod_id_hdl = ghandles.session_id_edit;
 run_obj.taskfile_path = task_filepath;
-
-run_obj.is_oga = get(ghandles.is_oga_button, 'Value');
 
 start_trials(run_obj);
 
@@ -336,28 +345,19 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in is_oga_button.
-function is_oga_button_Callback(hObject, eventdata, handles)
-% hObject    handle to is_oga_button (see GCBO)
+
+function pattern_number_edit_Callback(hObject, eventdata, handles)
+% hObject    handle to pattern_number_edit (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hint: get(hObject,'Value') returns toggle state of is_oga_button
-
-
-
-function edit9_Callback(hObject, eventdata, handles)
-% hObject    handle to edit9 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of edit9 as text
-%        str2double(get(hObject,'String')) returns contents of edit9 as a double
+% Hints: get(hObject,'String') returns contents of pattern_number_edit as text
+%        str2double(get(hObject,'String')) returns contents of pattern_number_edit as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function edit9_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit9 (see GCBO)
+function pattern_number_edit_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to pattern_number_edit (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -369,18 +369,18 @@ end
 
 
 
-function edit10_Callback(hObject, eventdata, handles)
-% hObject    handle to edit10 (see GCBO)
+function number_frames_edit_Callback(hObject, eventdata, handles)
+% hObject    handle to number_frames_edit (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit10 as text
-%        str2double(get(hObject,'String')) returns contents of edit10 as a double
+% Hints: get(hObject,'String') returns contents of number_frames_edit as text
+%        str2double(get(hObject,'String')) returns contents of number_frames_edit as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function edit10_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit10 (see GCBO)
+function number_frames_edit_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to number_frames_edit (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -392,18 +392,18 @@ end
 
 
 
-function edit11_Callback(hObject, eventdata, handles)
-% hObject    handle to edit11 (see GCBO)
+function trial_length_edit_Callback(hObject, eventdata, handles)
+% hObject    handle to trial_length_edit (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit11 as text
-%        str2double(get(hObject,'String')) returns contents of edit11 as a double
+% Hints: get(hObject,'String') returns contents of trial_length_edit as text
+%        str2double(get(hObject,'String')) returns contents of trial_length_edit as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function edit11_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit11 (see GCBO)
+function trial_length_edit_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to trial_length_edit (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -414,8 +414,13 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in pushbutton4.
-function pushbutton4_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton4 (see GCBO)
+% --- Executes on button press in stop_button.
+function stop_button_Callback(hObject, eventdata, handles)
+% hObject    handle to stop_button (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+global session_obj;
+session_obj.stop();
+release( session_obj );
+disp(['Stopped acquisition.']);
