@@ -22,7 +22,7 @@ function varargout = fly_tracker_JL(varargin)
 
 % Edit the above text to modify the response to help fly_tracker_JL
 
-% Last Modified by GUIDE v2.5 09-May-2017 16:28:50
+% Last Modified by GUIDE v2.5 24-May-2017 15:55:56
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -421,3 +421,11 @@ global session_obj;
 session_obj.stop();
 release( session_obj );
 disp(['Stopped acquisition.']);
+
+
+% --- Executes on button press in init_ball_button.
+function init_ball_button_Callback(hObject, eventdata, handles)
+% hObject    handle to init_ball_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+init_ball_parameters_JL(handles.experiment_dir);

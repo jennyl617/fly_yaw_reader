@@ -22,7 +22,7 @@ function varargout = fly_tracker(varargin)
 
 % Edit the above text to modify the response to help fly_tracker
 
-% Last Modified by GUIDE v2.5 09-May-2017 16:23:12
+% Last Modified by GUIDE v2.5 24-May-2017 15:51:24
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -417,5 +417,12 @@ end
 % --- Executes on button press in pushbutton4.
 function pushbutton4_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton5.
+function pushbutton5_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton5 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
