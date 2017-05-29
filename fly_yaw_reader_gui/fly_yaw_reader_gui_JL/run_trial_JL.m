@@ -11,7 +11,7 @@ s.addDigitalChannel('Dev1', 'port0/line0', 'OutputOnly');
 % These are for inputs: motion sensor 1 x,y; motion sensor 2 x,y; frame
 % clock; stim left; stim right;
 % Looks like channel 7 will be for panels x input.
-ai_channels_used = [0:7];
+ai_channels_used = [0:9];
 aI = s.addAnalogInputChannel('Dev1', ai_channels_used, 'Voltage');
 for i=1:length(ai_channels_used)
     aI(i).InputType = 'SingleEnded';

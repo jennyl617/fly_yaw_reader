@@ -16,8 +16,9 @@ if(strcmp(stim_type, 'Task File') == 1)
         disp(['Connected to scanimage server on socket']);
     end
         
-    %viz_figs.run_traj_fig = figure();
+    viz_figs.run_traj_fig = figure();
     viz_figs.velocity_tc_fig = figure();
+    viz_figs.velocity_tc_single_fig = figure();
     session_id = run_obj.session_id;
     
     for i = 1:task_cnt
@@ -29,7 +30,7 @@ if(strcmp(stim_type, 'Task File') == 1)
         [trial_bdata, trial_time] = run_trial_JL(i, cur_task, run_obj, scanimage_client_skt, cur_trial_corename );
         
         if check_trial(cur_task)
-            display_trial( cur_task, trial_time, trial_bdata, viz_figs );        
+            display_trial_JL( cur_task, trial_time, trial_bdata, viz_figs, run_obj.experiment_dir );        
         end
         
         % Save data              
@@ -67,5 +68,5 @@ end
 end
 
 function correct = check_trial(task)
-correct = (strcmp(task,'BothOdor') == 1) | (strcmp(task,'RightOdor') == 1) | (strcmp(task,'LeftOdor') == 1) | (strcmp(task,'2pStim') == 1);
+correct = (strcmp(task,'Control') == 1) | (strcmp(task,'ClosedLoop') == 1);
 end

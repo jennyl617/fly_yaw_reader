@@ -15,7 +15,5 @@ settings.zero_mean_two_std_per_channel = [0.001, 0.001, 0.001, 0.001];
 settings.cutoffFreq = 50;
 settings.aiType = 'SingleEnded';
 settings.sensorPollFreq = 100; 
-settings.sensor_1_DX_DAQ_AI = 1;
-settings.sensor_2_DX_DAQ_AI = 3;
-settings.sensor_1_DY_DAQ_AI = 2;
-settings.sensor_2_DY_DAQ_AI = 4;
+settings.zero_params_filename = 'zero_ball_velocity_params.mat';
+

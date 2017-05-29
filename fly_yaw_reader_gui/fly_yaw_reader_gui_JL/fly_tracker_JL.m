@@ -59,7 +59,7 @@ handles.output = hObject;
 % uiwait(handles.figure1);
 
 % Prompt for an experiment directory
-dname = uigetdir('C:\Users\wilson_lab\Desktop\Sasha\data\', 'Please chose an experiment directory.');
+dname = uigetdir('X:\Jenny\FSB\Data\Behavior', 'Please chose an experiment directory.');
 handles.experiment_dir = dname;
 
 ghandles = guihandles(hObject);
@@ -85,7 +85,7 @@ function experiment_dir_button_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-dname = uigetdir('C:\Users\wilson_lab\Desktop\Sasha\data\');
+dname = uigetdir('X:\Jenny\FSB\Data\Behavior');
 handles.experiment_dir = dname;
 
 ghandles = guihandles(hObject);
@@ -271,7 +271,7 @@ function task_file_button_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-[FileName,PathName] = uigetfile('C:\Users\wilson_lab\Desktop\Sasha\task_files\*.txt','Select a task file');
+[FileName,PathName] = uigetfile('X:\Jenny\FSB\Data\Behavior\task_files\*.txt','Select a task file');
 
 handles.taskfile_path = [PathName '\' FileName];
 

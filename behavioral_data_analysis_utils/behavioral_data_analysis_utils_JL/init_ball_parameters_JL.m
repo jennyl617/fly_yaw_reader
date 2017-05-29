@@ -2,6 +2,10 @@ function [  ] = init_ball_parameters_JL(experiment_dir)
 % init_ball_parameters: 
 % WARNING: THE BALL MUST NOT BE MOVING
 settings = sensor_settings;
+settings.sensor_1_DX_DAQ_AI = 1;
+settings.sensor_2_DX_DAQ_AI = 3;
+settings.sensor_1_DY_DAQ_AI = 2;
+settings.sensor_2_DY_DAQ_AI = 4;
 
 session_obj = daq.createSession('ni');
 
