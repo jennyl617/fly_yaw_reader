@@ -304,8 +304,6 @@ run_obj.number_frames = str2num(get(ghandles.number_frames_edit, 'String'));
 run_obj.pattern_number = str2num(get(ghandles.pattern_number_edit, 'String'));
 run_obj.start_frame = str2num(get(ghandles.start_frame, 'String'));
 run_obj.loop_type = get(ghandles.panels_loop,'Value');
-loop_types = get(ghandles.panels_loop, 'String');
-run_obj.loop_type_str = loop_types{run_obj.loop_type};
 
 % 2p variable
 run_obj.using_2p = get(ghandles.using_2p_button, 'Value');
@@ -315,17 +313,6 @@ run_obj.experiment_dir = handles.experiment_dir;
 run_obj.session_id = str2num(get(ghandles.session_id_edit, 'String'));
 run_obj.sessiod_id_hdl = ghandles.session_id_edit;
 run_obj.num_trials = str2num(get(ghandles.num_trials, 'String'));
-
-% some things to check beforehand
-if run_obj.test_phase_t < 0
-    disp('Please set test phase time to >= 0 s.');
-    return
-end
-
-if run_obj.odor_CL == 1
-    disp('Not ready for this feature yet, sorry!');
-    return
-end
 
 start_trials_JL(run_obj);
 
@@ -404,11 +391,6 @@ function trial_length_edit_Callback(hObject, eventdata, handles)
 % hObject    handle to trial_length_edit (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-ghandles = guihandles(hObject);
-odor_phase_t = str2num(get(ghandles.odor_time, 'String'));
-initial_phase_t = str2num(get(ghandles.initial_time, 'String'));
-trial_t = str2num(get(ghandles.trial_length_edit, 'String'));
-set(ghandles.test_time, 'String', num2str(trial_t-odor_phase_t-initial_phase_t));
 
 % Hints: get(hObject,'String') returns contents of trial_length_edit as text
 %        str2double(get(hObject,'String')) returns contents of trial_length_edit as a double
@@ -481,36 +463,11 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-function test_time_Callback(hObject, eventdata, handles)
-% hObject    handle to test_time (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-% Hints: get(hObject,'String') returns contents of test_time as text
-%        str2double(get(hObject,'String')) returns contents of test_time as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function test_time_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to test_time (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
 
 function initial_time_Callback(hObject, eventdata, handles)
 % hObject    handle to initial_time (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-ghandles = guihandles(hObject);
-odor_phase_t = str2num(get(ghandles.odor_time, 'String'));
-initial_phase_t = str2num(get(ghandles.initial_time, 'String'));
-trial_t = str2num(get(ghandles.trial_length_edit, 'String'));
-set(ghandles.test_time, 'String', num2str(trial_t-odor_phase_t-initial_phase_t));
 
 % Hints: get(hObject,'String') returns contents of initial_time as text
 %        str2double(get(hObject,'String')) returns contents of initial_time as a double
@@ -534,11 +491,6 @@ function odor_time_Callback(hObject, eventdata, handles)
 % hObject    handle to odor_time (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-ghandles = guihandles(hObject);
-odor_phase_t = str2num(get(ghandles.odor_time, 'String'));
-initial_phase_t = str2num(get(ghandles.initial_time, 'String'));
-trial_t = str2num(get(ghandles.trial_length_edit, 'String'));
-set(ghandles.test_time, 'String', num2str(trial_t-odor_phase_t-initial_phase_t));
 
 % Hints: get(hObject,'String') returns contents of odor_time as text
 %        str2double(get(hObject,'String')) returns contents of odor_time as a double
@@ -547,6 +499,31 @@ set(ghandles.test_time, 'String', num2str(trial_t-odor_phase_t-initial_phase_t))
 % --- Executes during object creation, after setting all properties.
 function odor_time_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to odor_time (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function test_time_Callback(hObject, eventdata, handles)
+% hObject    handle to test_time (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+ghandles = guihandles(hObject);
+
+
+% Hints: get(hObject,'String') returns contents of test_time as text
+%        str2double(get(hObject,'String')) returns contents of test_time as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function test_time_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to test_time (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 

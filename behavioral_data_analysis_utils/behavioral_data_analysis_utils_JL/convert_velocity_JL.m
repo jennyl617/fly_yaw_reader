@@ -4,11 +4,14 @@ function [v_fwd,v_side,v_yaw] = convert_velocity_JL(vel_fwd, vel_side, vel_yaw)
 %%% 2017/01/31
 
 %% parameters
-a_forward = -.00689;
+% a_forward = -0.00689;
+% a_side = -0.00514;
+% a_yaw = 0.000375;
 
-a_side = 0.00101;
-
-a_yaw = -0.000311;
+%% revised parameters
+a_yaw = .00377*150./100;
+a_side = -0.00644;
+a_forward = -.00617;
 
 %% convert
 v_fwd = vel_fwd./a_forward;

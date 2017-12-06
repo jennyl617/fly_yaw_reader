@@ -1,21 +1,21 @@
 function [] = display_trial_JL( task, trial_time, trial_data, viz_figs, exp_dir )
 
-colors = {'red', 'green', 'blue', 'black'};
+colors = {'black','red', 'green', 'blue'};
 cur_color = '';
 
 if( (strcmp(task, 'Control') == 1 ) )
     cur_color = colors{1};
 elseif( strcmp(task, 'ClosedLoop') == 1 )
     cur_color = colors{2};
-% elseif( strcmp(task, 'BothOdor') == 1 )
-%     cur_color = colors{3};
-% elseif( strcmp(task, 'NaturalOdor') == 1 )
-%     cur_color = colors{4};
+elseif( strcmp(task, 'OpenLoopLeft') == 1 )
+     cur_color = colors{3};
+elseif( strcmp(task, 'OpenLoopRight') == 1 )
+     cur_color = colors{4};
 else
     disp(['ERROR: Task: ' task ' is not recognized.']);
 end
 
-settings = sensor_settings;
+settings = sensor_settings_JL;
 
 %% obtaining zero for the ball output
 ZeroBall = false;

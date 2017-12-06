@@ -99,7 +99,7 @@ Panel_com('set_pattern_id', pattern);
 Panel_com('set_position', [startPosition, 1]);
 %set closed loop for x
 Panel_com('set_mode', [3, 0]);
-% gain = 1;
+gain = 1;
 %gain = -.742;
 % zeropoint = 0;
 % bias = zeropoint * 20;

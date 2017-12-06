@@ -1,4 +1,4 @@
-function [ disp_x, disp_y, theta ] = calculate_fly_position_no_yaw(vel_forward, vel_side, vel_yaw, dt, last_pos_x, last_pos_y, last_theta)
+function [ disp_x, disp_y, theta ] = calculate_fly_position_with_yaw(vel_forward, vel_side, vel_yaw, dt, last_pos_x, last_pos_y, last_theta)
 
 disp_x = zeros(1,length(vel_forward));
 disp_y = zeros(1,length(vel_forward));
